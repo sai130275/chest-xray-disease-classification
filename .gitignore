@@ -1,18 +1,55 @@
-# Python
+# Python & Virtual Environments
 venv/
+env/
+.venv/
 __pycache__/
 *.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
 
-# Large dataset
+# Node / Frontend
+frontend/node_modules/
+node_modules/
+frontend/dist/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Large dataset & archives
+images
 images/
 archive.zip
+data/images
+data/images/
+data/archive.zip
+*.zip
+*.tar
+*.gz
 
-# Model checkpoints
+# Model weights & checkpoints
 *.pth
 *.pt
+*.onnx
+models/*.pth
+models/*.pt
 
-# macOS
+# Environment & secrets
+.env
+.env.*
+*.secret
+
+# macOS & Operating System
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
 
-# Temporary files
+# Temporary files & logs
 *.log
+*.tmp
+.pytest_cache/

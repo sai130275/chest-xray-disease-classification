@@ -1,0 +1,24 @@
+# RAD-X Chest X-Ray Multi-Label Classification Dependencies
+# Python >= 3.10, < 3.13 (Tested on Python 3.12.4 macOS / Apple Silicon MPS & CPU)
+
+# Deep Learning Framework
+torch==2.2.2
+torchvision==0.17.2
+
+# Data Processing & Analysis
+numpy>=1.26.0,<2.0.0
+pandas>=2.2.0
+scikit-learn>=1.4.0
+Pillow>=10.2.0
+
+# Visualization
+matplotlib>=3.8.0
+
+# Backend Inference API
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
+python-multipart>=0.0.9
+pydantic>=2.6.0
+
+# Testing & Development
+pytest>=8.0.0
