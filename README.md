@@ -143,7 +143,15 @@ tests/test_split.py .        [100%]
 
 ## 6. Launching the System
 
-### Step 1: Start Backend API
+### Quick Start (Single Command)
+Run the automated startup script to launch both backend and frontend concurrently:
+```bash
+./startup.sh
+```
+
+### Manual Start
+
+#### Step 1: Start Backend API
 ```bash
 source venv/bin/activate
 uvicorn backend.app:app --host 127.0.0.1 --port 8000 --reload
@@ -151,7 +159,7 @@ uvicorn backend.app:app --host 127.0.0.1 --port 8000 --reload
 - API Health: [http://localhost:8000/health](http://localhost:8000/health)
 - API Docs (Swagger): [http://localhost:8000/docs](http://localhost:8000/docs)
 
-### Step 2: Start Frontend UI
+#### Step 2: Start Frontend UI
 In a separate terminal:
 ```bash
 cd frontend
