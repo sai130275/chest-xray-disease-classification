@@ -196,7 +196,7 @@ The following large binary assets are kept **strictly local** and excluded via `
 
 ## 9. Deploying on Render
 
-The repository includes a Render Blueprint (`render.yaml`) that builds the Vite dashboard and serves it from the FastAPI service on the same origin. The chest X-ray dataset is not needed for inference. Model weights are excluded from Git, so provide a signed direct-download URL for the checkpoint as the `RADX_MODEL_URL` secret environment variable when Render prompts for it. The file must be the `chest_xray_finetuned_best.pth` state dictionary. Prefer a short-lived URL from private artifact storage.
+The repository includes a Render Blueprint (`render.yaml`) that builds the Vite dashboard and serves it from the FastAPI service on the same origin. The chest X-ray dataset is not needed for inference. Model weights are excluded from Git, so provide a stable direct-download URL for the checkpoint as the `RADX_MODEL_URL` secret environment variable when Render prompts for it. The file must be the `chest_xray_finetuned_best.pth` state dictionary. Use an access-controlled link that remains valid whenever Render starts or wakes the service; an expiring signed URL will eventually prevent model loading.
 
 To deploy:
 1. Push this repository to GitHub with the `render.yaml` changes.
