@@ -205,10 +205,9 @@ To create Dropbox API credentials without pasting them into chat:
 4. Enter `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and `DROPBOX_REFRESH_TOKEN` in Render's secret fields, then deploy the Blueprint.
 
 To deploy:
-1. Push this repository to GitHub with the `render.yaml` changes.
-2. In Render, choose **New → Blueprint** and connect `sai130275/chest-xray-disease-classification`.
-3. Set `RADX_MODEL_URL` to a URL that downloads the checkpoint file directly, then apply the Blueprint.
-4. Open the service URL. The dashboard is at `/`, API docs at `/docs`, and readiness at `/health`.
+1. In Render, choose **New → Blueprint**, select `sai130275/chest-xray-disease-classification`, and choose the `codex/rad-x-render-deployment` branch.
+2. Set `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and `DROPBOX_REFRESH_TOKEN` from the Dropbox App Console and token helper above.
+3. Apply the Blueprint, then open the service URL. The dashboard is at `/`, API docs at `/docs`, and readiness at `/health`.
 
 Render starts the app on its assigned port and downloads the checkpoint at service startup. If the Dropbox credentials are missing or invalid, startup fails with a clear error. The Blueprint uses Render's Free web service plan to avoid provisioning paid compute. Free services have resource and availability limits, and the PyTorch model may exceed the 512 MB memory limit; upgrade only if inference fails and you approve the associated charge.
 
