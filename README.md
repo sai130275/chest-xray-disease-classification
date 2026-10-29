@@ -204,6 +204,6 @@ To deploy:
 3. Set `RADX_MODEL_URL` to a URL that downloads the checkpoint file directly, then apply the Blueprint.
 4. Open the service URL. The dashboard is at `/`, API docs at `/docs`, and readiness at `/health`.
 
-Render starts the app on its assigned port and downloads the checkpoint at service startup. If the model URL is missing or inaccessible, startup fails with a clear error. The Blueprint uses a Starter web service because PyTorch model loading and inference need more memory than a minimal static host. Review current Render pricing before applying the Blueprint.
+Render starts the app on its assigned port and downloads the checkpoint at service startup. If the model URL is missing or inaccessible, startup fails with a clear error. The Blueprint uses Render's Free web service plan to avoid provisioning paid compute. Free services have resource and availability limits, and the PyTorch model may exceed the 512 MB memory limit; upgrade only if inference fails and you approve the associated charge.
 
 This is a research and educational prototype, not a clinical diagnostic tool. Do not use hosted predictions for patient care.
