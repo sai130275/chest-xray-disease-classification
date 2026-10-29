@@ -193,3 +193,17 @@ The following large binary assets are kept **strictly local** and excluded via `
 - Model checkpoints `*.pth` and `models/*.pth` (~27 MB each)
 - Python virtual environment `venv/`
 - Node dependencies `frontend/node_modules/`
+
+## 9. Deploying on Render
+
+The repository includes a Render Blueprint (`render.yaml`) that builds the Vite dashboard and serves it from the FastAPI service on the same origin. The chest X-ray dataset is not needed for inference. Model weights are excluded from Git, so provide a signed direct-download URL for the checkpoint as the `RADX_MODEL_URL` secret environment variable when Render prompts for it. The file must be the `chest_xray_finetuned_best.pth` state dictionary. Prefer a short-lived URL from private artifact storage.
+
+To deploy:
+1. Push this repository to GitHub with the `render.yaml` changes.
+2. In Render, choose **New → Blueprint** and connect `sai130275/chest-xray-disease-classification`.
+3. Set `RADX_MODEL_URL` to a URL that downloads the checkpoint file directly, then apply the Blueprint.
+4. Open the service URL. The dashboard is at `/`, API docs at `/docs`, and readiness at `/health`.
+
+Render starts the app on its assigned port and downloads the checkpoint at service startup. If the model URL is missing or inaccessible, startup fails with a clear error. The Blueprint uses a Starter web service because PyTorch model loading and inference need more memory than a minimal static host. Review current Render pricing before applying the Blueprint.
+
+This is a research and educational prototype, not a clinical diagnostic tool. Do not use hosted predictions for patient care.

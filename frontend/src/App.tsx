@@ -66,7 +66,8 @@ const DISEASE_DESCRIPTIONS: Record<string, string> = {
   Pneumothorax: "Presence of air or gas within the pleural cavity"
 };
 
-const API_BASE = "http://localhost:8000";
+// Empty by default so the frontend talks to the API on the same origin in production.
+const API_BASE = (import.meta.env.VITE_API_BASE_URL ?? "").replace(/\/$/, "");
 
 export const App: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
