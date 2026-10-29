@@ -196,7 +196,13 @@ The following large binary assets are kept **strictly local** and excluded via `
 
 ## 9. Deploying on Render
 
-The repository includes a Render Blueprint (`render.yaml`) that builds the Vite dashboard and serves it from the FastAPI service on the same origin. The chest X-ray dataset is not needed for inference. Model weights are excluded from Git and stored privately in Dropbox at `/RAD-X/chest_xray_finetuned_best.pth`. Render downloads the file at startup through the Dropbox API and verifies its SHA-256 checksum. In Render, provide `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and `DROPBOX_REFRESH_TOKEN` as secret environment variables. Create a Dropbox app with the `files.content.read` scope and offline access; an App Folder app is preferable for least-privilege access, in which case the model must be placed under that app folder and `DROPBOX_FILE_PATH` updated to its Dropbox API path.
+The repository includes a Render Blueprint (`render.yaml`) that builds the Vite dashboard and serves it from the FastAPI service on the same origin. The chest X-ray dataset is not needed for inference. Model weights are excluded from Git and stored privately in Dropbox at `/RAD-X/chest_xray_finetuned_best.pth`. Render downloads the file at startup through the Dropbox API and verifies its SHA-256 checksum.
+
+To create Dropbox API credentials without pasting them into chat:
+1. In the [Dropbox App Console](https://www.dropbox.com/developers/apps), create a scoped app with **App folder** access and enable the `files.content.read` permission. This is the least-privilege option.
+2. Move the checkpoint into the app's Dropbox folder, preserving a `RAD-X/chest_xray_finetuned_best.pth` subpath. For an App folder app, set `DROPBOX_FILE_PATH` to `/RAD-X/chest_xray_finetuned_best.pth` (the path is relative to that app folder).
+3. Run `python deploy/create_dropbox_refresh_token.py` locally. Enter the app key and secret when prompted, approve the requested read-only access in Dropbox, then copy the resulting refresh token directly into Render. Do not commit or paste credentials into chat.
+4. Enter `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and `DROPBOX_REFRESH_TOKEN` in Render's secret fields, then deploy the Blueprint.
 
 To deploy:
 1. Push this repository to GitHub with the `render.yaml` changes.
