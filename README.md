@@ -196,7 +196,7 @@ The following large binary assets are kept **strictly local** and excluded via `
 
 ## 9. Deploying on Render
 
-The repository includes a Render Blueprint (`render.yaml`) that builds the Vite dashboard and serves it from the FastAPI service on the same origin. The chest X-ray dataset is not needed for inference. Model weights are excluded from Git, so provide a stable direct-download URL for the checkpoint as the `RADX_MODEL_URL` secret environment variable when Render prompts for it. The file must be the `chest_xray_finetuned_best.pth` state dictionary. Use an access-controlled link that remains valid whenever Render starts or wakes the service; an expiring signed URL will eventually prevent model loading.
+The repository includes a Render Blueprint (`render.yaml`) that builds the Vite dashboard and serves it from the FastAPI service on the same origin. The chest X-ray dataset is not needed for inference. Model weights are excluded from Git and stored privately in Dropbox at `/RAD-X/chest_xray_finetuned_best.pth`. Render downloads the file at startup through the Dropbox API and verifies its SHA-256 checksum. In Render, provide `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and `DROPBOX_REFRESH_TOKEN` as secret environment variables. Create a Dropbox app with the `files.content.read` scope and offline access; an App Folder app is preferable for least-privilege access, in which case the model must be placed under that app folder and `DROPBOX_FILE_PATH` updated to its Dropbox API path.
 
 To deploy:
 1. Push this repository to GitHub with the `render.yaml` changes.
@@ -204,6 +204,6 @@ To deploy:
 3. Set `RADX_MODEL_URL` to a URL that downloads the checkpoint file directly, then apply the Blueprint.
 4. Open the service URL. The dashboard is at `/`, API docs at `/docs`, and readiness at `/health`.
 
-Render starts the app on its assigned port and downloads the checkpoint at service startup. If the model URL is missing or inaccessible, startup fails with a clear error. The Blueprint uses Render's Free web service plan to avoid provisioning paid compute. Free services have resource and availability limits, and the PyTorch model may exceed the 512 MB memory limit; upgrade only if inference fails and you approve the associated charge.
+Render starts the app on its assigned port and downloads the checkpoint at service startup. If the Dropbox credentials are missing or invalid, startup fails with a clear error. The Blueprint uses Render's Free web service plan to avoid provisioning paid compute. Free services have resource and availability limits, and the PyTorch model may exceed the 512 MB memory limit; upgrade only if inference fails and you approve the associated charge.
 
 This is a research and educational prototype, not a clinical diagnostic tool. Do not use hosted predictions for patient care.

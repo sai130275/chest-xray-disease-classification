@@ -10,6 +10,12 @@ services:
       - key: PYTHON_VERSION
         value: 3.12.8
       - key: RADX_MODEL_PATH
-        value: /opt/render/project/src/models/chest_xray_finetuned_best.pth
-      - key: RADX_MODEL_URL
+        value: /tmp/rad-x/chest_xray_finetuned_best.pth
+      - key: DROPBOX_FILE_PATH
+        value: /RAD-X/chest_xray_finetuned_best.pth
+      - key: DROPBOX_APP_KEY
+        sync: false
+      - key: DROPBOX_APP_SECRET
+        sync: false
+      - key: DROPBOX_REFRESH_TOKEN
         sync: false
