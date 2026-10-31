@@ -17,6 +17,8 @@ if str(_PROJECT_ROOT) not in sys.path:
 from fastapi import FastAPI, UploadFile, File, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 
 from backend.predictor import get_predictor, RadXPredictor
 from ml.config import (
@@ -54,6 +56,9 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan
 )
+
+# In production Render builds the Vite app and FastAPI serves it from the same origin.
+_FRONTEND_DIST = _PROJECT_ROOT / "frontend" / "dist"
 
 # CORS Configuration for React Frontend
 allowed_origins_env = os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173,http://localhost:3000")
@@ -189,3 +194,10 @@ async def predict_chest_xray(file: UploadFile = File(...)):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Inference processing failed. Please verify that a valid radiograph image was supplied."
         )
+
+if _FRONTEND_DIST.is_dir():
+    app.mount("/assets", StaticFiles(directory=_FRONTEND_DIST / "assets"), name="frontend-assets")
+
+    @app.get("/", include_in_schema=False)
+    def frontend_index():
+        return FileResponse(_FRONTEND_DIST / "index.html")

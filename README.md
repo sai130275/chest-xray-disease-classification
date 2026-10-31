@@ -193,3 +193,22 @@ The following large binary assets are kept **strictly local** and excluded via `
 - Model checkpoints `*.pth` and `models/*.pth` (~27 MB each)
 - Python virtual environment `venv/`
 - Node dependencies `frontend/node_modules/`
+
+## 9. Deploying on Render
+
+The repository includes a Render Blueprint (`render.yaml`) that builds the Vite dashboard and serves it from the FastAPI service on the same origin. The chest X-ray dataset is not needed for inference. Model weights are excluded from Git and stored privately in Dropbox at `/RAD-X/chest_xray_finetuned_best.pth`. Render downloads the file at startup through the Dropbox API and verifies its SHA-256 checksum.
+
+To create Dropbox API credentials without pasting them into chat:
+1. In the [Dropbox App Console](https://www.dropbox.com/developers/apps), create a scoped app with **App folder** access and enable the `files.content.read` permission. This is the least-privilege option.
+2. Move the checkpoint into the app's Dropbox folder, preserving a `RAD-X/chest_xray_finetuned_best.pth` subpath. For an App folder app, set `DROPBOX_FILE_PATH` to `/RAD-X/chest_xray_finetuned_best.pth` (the path is relative to that app folder).
+3. Run `python deploy/create_dropbox_refresh_token.py` locally. Enter the app key and secret when prompted, approve the requested read-only access in Dropbox, then copy the resulting refresh token directly into Render. Do not commit or paste credentials into chat.
+4. Enter `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and `DROPBOX_REFRESH_TOKEN` in Render's secret fields, then deploy the Blueprint.
+
+To deploy:
+1. In Render, choose **New → Blueprint**, select `sai130275/chest-xray-disease-classification`, and choose the `codex/rad-x-render-deployment` branch.
+2. Set `DROPBOX_APP_KEY`, `DROPBOX_APP_SECRET`, and `DROPBOX_REFRESH_TOKEN` from the Dropbox App Console and token helper above.
+3. Apply the Blueprint, then open the service URL. The dashboard is at `/`, API docs at `/docs`, and readiness at `/health`.
+
+Render starts the app on its assigned port and downloads the checkpoint at service startup. If the Dropbox credentials are missing or invalid, startup fails with a clear error. The Blueprint uses Render's Free web service plan to avoid provisioning paid compute. Free services have resource and availability limits, and the PyTorch model may exceed the 512 MB memory limit; upgrade only if inference fails and you approve the associated charge.
+
+This is a research and educational prototype, not a clinical diagnostic tool. Do not use hosted predictions for patient care.
