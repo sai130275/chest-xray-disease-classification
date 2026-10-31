@@ -195,9 +195,10 @@ export const App: React.FC = () => {
     : [];
 
   return (
-    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+    <div className="radx-app" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       {/* Top Warning Banner */}
       <div
+        className="notice-banner"
         style={{
           background: "linear-gradient(90deg, #1e1b4b 0%, #172554 100%)",
           borderBottom: "1px solid rgba(147, 197, 253, 0.2)",
@@ -209,13 +210,13 @@ export const App: React.FC = () => {
           color: "#93c5fd",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        <div className="notice-copy" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <ShieldAlert size={16} color="#38bdf8" />
           <span>
             <strong>RESEARCH & EDUCATIONAL PROTOTYPE ONLY</strong> — Not certified for clinical diagnosis, patient triage, or medical management.
           </span>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "12px" }}>
+        <div className="notice-meta" style={{ display: "flex", alignItems: "center", gap: "16px", fontSize: "12px" }}>
           <span>Dataset: NIH ChestX-ray14 Subset</span>
           <span>Holdout Test: 2,121 Images</span>
         </div>
@@ -223,6 +224,7 @@ export const App: React.FC = () => {
 
       {/* Main Navbar */}
       <header
+        className="app-header"
         style={{
           borderBottom: "1px solid var(--border-subtle)",
           background: "rgba(11, 17, 32, 0.8)",
@@ -236,7 +238,7 @@ export const App: React.FC = () => {
           justifyContent: "space-between",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+        <div className="brand-lockup" style={{ display: "flex", alignItems: "center", gap: "16px" }}>
           <div
             style={{
               width: "40px",
@@ -276,8 +278,9 @@ export const App: React.FC = () => {
         </div>
 
         {/* Navigation Tabs & Health Badge */}
-        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+        <div className="header-tools" style={{ display: "flex", alignItems: "center", gap: "20px" }}>
           <div
+            className="nav-switcher"
             style={{
               display: "flex",
               background: "var(--bg-secondary)",
@@ -328,6 +331,7 @@ export const App: React.FC = () => {
 
           {/* Backend Status Indicator */}
           <div
+            className="backend-status"
             onClick={checkHealth}
             title="Click to re-check API connection"
             style={{
@@ -364,13 +368,13 @@ export const App: React.FC = () => {
       </header>
 
       {/* Main Content Area */}
-      <main style={{ flex: 1, padding: "28px", maxWidth: "1560px", margin: "0 auto", width: "100%" }}>
+      <main className="app-main" style={{ flex: 1, padding: "28px", maxWidth: "1560px", margin: "0 auto", width: "100%" }}>
         {activeTab === "dashboard" ? (
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1.35fr", gap: "28px" }}>
+          <div className="dashboard-grid" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) minmax(0, 1.35fr)", gap: "28px" }}>
             {/* Left Column: Upload & Radiograph Preview */}
             <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
               {/* Image Input Panel */}
-              <div className="glass-panel" style={{ padding: "24px" }}>
+              <div className="glass-panel upload-panel" style={{ padding: "24px" }}>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "16px" }}>
                   <h2 style={{ fontSize: "16px", fontWeight: "700", display: "flex", alignItems: "center", gap: "8px" }}>
                     <Upload size={18} color="#38bdf8" />
@@ -398,6 +402,7 @@ export const App: React.FC = () => {
 
                 {!previewUrl ? (
                   <div
+                    className="image-dropzone"
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
@@ -444,6 +449,7 @@ export const App: React.FC = () => {
                 ) : (
                   <div>
                     <div
+                      className="preview-workspace"
                       style={{
                         position: "relative",
                         background: "#000000",
@@ -496,6 +502,7 @@ export const App: React.FC = () => {
                     </div>
 
                     <div
+                      className="preview-actions"
                       style={{
                         marginTop: "14px",
                         display: "flex",
@@ -556,12 +563,12 @@ export const App: React.FC = () => {
               </div>
 
               {/* Research Methodology Card */}
-              <div className="glass-panel" style={{ padding: "20px" }}>
+              <div className="glass-panel pipeline-panel" style={{ padding: "20px" }}>
                 <h3 style={{ fontSize: "14px", fontWeight: "700", color: "#38bdf8", marginBottom: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
                   <Layers size={16} />
                   Model Pipeline Specs
                 </h3>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px", fontSize: "12px" }}>
+                <div className="pipeline-grid" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "12px", fontSize: "12px" }}>
                   <div style={{ background: "var(--bg-secondary)", padding: "10px 12px", borderRadius: "8px" }}>
                     <div style={{ color: "var(--text-dim)" }}>Architecture</div>
                     <div style={{ fontWeight: "600", marginTop: "2px" }}>DenseNet121 (ImageNet weights)</div>
@@ -586,7 +593,7 @@ export const App: React.FC = () => {
             <div>
               {!result && !loading && (
                 <div
-                  className="glass-panel"
+                  className="glass-panel empty-state-card"
                   style={{
                     padding: "60px 30px",
                     textAlign: "center",
@@ -623,7 +630,7 @@ export const App: React.FC = () => {
 
               {loading && (
                 <div
-                  className="glass-panel"
+                  className="glass-panel empty-state-card"
                   style={{
                     padding: "60px 30px",
                     textAlign: "center",
@@ -656,7 +663,7 @@ export const App: React.FC = () => {
               )}
 
               {result && !loading && (
-                <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                <div className="results-panel" style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
                   {/* Summary Banner */}
                   <div
                     className="glass-panel"
@@ -668,7 +675,7 @@ export const App: React.FC = () => {
                       border: `1px solid ${result.positive_findings.length > 0 ? "rgba(239, 68, 68, 0.3)" : "rgba(16, 185, 129, 0.3)"}`,
                     }}
                   >
-                    <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
+                    <div className="result-summary-details" style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between" }}>
                       <div>
                         <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
                           {result.positive_findings.length > 0 ? (
@@ -710,6 +717,7 @@ export const App: React.FC = () => {
 
                   {/* Filters & Sorting Toolbar */}
                   <div
+                    className="result-toolbar"
                     style={{
                       display: "flex",
                       alignItems: "center",
@@ -717,7 +725,7 @@ export const App: React.FC = () => {
                       padding: "0 4px",
                     }}
                   >
-                    <div style={{ display: "flex", gap: "8px" }}>
+                    <div className="result-filters" style={{ display: "flex", gap: "8px" }}>
                       <button
                         onClick={() => setFilterMode("all")}
                         style={{
@@ -748,7 +756,7 @@ export const App: React.FC = () => {
                       </button>
                     </div>
 
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <div className="result-sort" style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                       <span style={{ fontSize: "12px", color: "var(--text-dim)", display: "flex", alignItems: "center", gap: "4px" }}>
                         <ArrowUpDown size={12} /> Sort:
                       </span>
@@ -772,8 +780,8 @@ export const App: React.FC = () => {
                   </div>
 
                   {/* Multi-Label Results Chart */}
-                  <div className="glass-panel" style={{ padding: "20px" }}>
-                    <div
+                  <div className="glass-panel results-chart" style={{ padding: "20px" }}>
+                      <div className="prediction-heading"
                       style={{
                         display: "flex",
                         justifyContent: "space-between",
@@ -799,6 +807,7 @@ export const App: React.FC = () => {
 
                         return (
                           <div
+                            className="prediction-row"
                             key={pred.disease}
                             style={{
                               display: "flex",
@@ -808,7 +817,7 @@ export const App: React.FC = () => {
                             }}
                           >
                             {/* Disease Label & Clinical Subtitle */}
-                            <div style={{ flex: 1.4 }}>
+                            <div className="prediction-name" style={{ flex: 1.4 }}>
                               <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                                 <span style={{ fontWeight: "700", fontSize: "14px" }}>{pred.disease}</span>
                               </div>
@@ -818,7 +827,7 @@ export const App: React.FC = () => {
                             </div>
 
                             {/* Probability Bar with Calibrated Threshold Tick */}
-                            <div style={{ flex: 2.2, position: "relative" }}>
+                            <div className="prediction-bar" style={{ flex: 2.2, position: "relative" }}>
                               <div
                                 style={{
                                   height: "18px",
@@ -879,7 +888,7 @@ export const App: React.FC = () => {
                             </div>
 
                             {/* Classification Badge & Test AUC */}
-                            <div style={{ flex: 1.1, textAlign: "right" }}>
+                            <div className="prediction-decision" style={{ flex: 1.1, textAlign: "right" }}>
                               <span
                                 style={{
                                   display: "inline-block",
@@ -920,7 +929,7 @@ export const App: React.FC = () => {
         ) : (
           /* Methodology & Metrics Tab */
           <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
-            <div className="glass-panel" style={{ padding: "28px" }}>
+            <div className="glass-panel methodology-panel" style={{ padding: "28px" }}>
               <h2 style={{ fontSize: "20px", fontWeight: "800", marginBottom: "8px", color: "#38bdf8" }}>
                 Experimental Methodology & Validation Setup
               </h2>
@@ -930,18 +939,18 @@ export const App: React.FC = () => {
                 (70% train / 15% validation / 15% test). No patient's images exist in more than one partition.
               </p>
 
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px", marginTop: "24px" }}>
-                <div style={{ background: "var(--bg-secondary)", padding: "18px", borderRadius: "12px", border: "1px solid var(--border-subtle)" }}>
+              <div className="dataset-metrics" style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0, 1fr))", gap: "20px", marginTop: "24px" }}>
+                <div className="dataset-metric" style={{ background: "var(--bg-secondary)", padding: "18px", borderRadius: "12px", border: "1px solid var(--border-subtle)" }}>
                   <div style={{ fontSize: "12px", color: "var(--text-dim)", textTransform: "uppercase" }}>Training Set</div>
                   <div style={{ fontSize: "24px", fontWeight: "800", color: "#38bdf8", marginTop: "4px" }}>10,699</div>
                   <div style={{ fontSize: "13px", color: "var(--text-muted)", marginTop: "2px" }}>2,746 Unique Patients (70%)</div>
                 </div>
-                <div style={{ background: "var(--bg-secondary)", padding: "18px", borderRadius: "12px", border: "1px solid var(--border-subtle)" }}>
+                <div className="dataset-metric" style={{ background: "var(--bg-secondary)", padding: "18px", borderRadius: "12px", border: "1px solid var(--border-subtle)" }}>
                   <div style={{ fontSize: "12px", color: "var(--text-dim)", textTransform: "uppercase" }}>Validation Set</div>
                   <div style={{ fontSize: "24px", fontWeight: "800", color: "#38bdf8", marginTop: "4px" }}>2,179</div>
                   <div style={{ fontSize: "13px", color: "var(--text-muted)", marginTop: "2px" }}>588 Patients (Used for threshold tuning)</div>
                 </div>
-                <div style={{ background: "var(--bg-secondary)", padding: "18px", borderRadius: "12px", border: "1px solid var(--border-subtle)" }}>
+                <div className="dataset-metric" style={{ background: "var(--bg-secondary)", padding: "18px", borderRadius: "12px", border: "1px solid var(--border-subtle)" }}>
                   <div style={{ fontSize: "12px", color: "var(--text-dim)", textTransform: "uppercase" }}>Holdout Test Set</div>
                   <div style={{ fontSize: "24px", fontWeight: "800", color: "#38bdf8", marginTop: "4px" }}>2,121</div>
                   <div style={{ fontSize: "13px", color: "var(--text-muted)", marginTop: "2px" }}>589 Patients (Evaluated strictly once)</div>
@@ -950,20 +959,20 @@ export const App: React.FC = () => {
             </div>
 
             {/* Test Performance Table */}
-            <div className="glass-panel" style={{ padding: "28px" }}>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "18px" }}>
+            <div className="glass-panel methodology-panel" style={{ padding: "28px" }}>
+              <div className="metrics-title-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "18px" }}>
                 <div>
                   <h3 style={{ fontSize: "16px", fontWeight: "700" }}>Holdout Test Set Metrics by Disease</h3>
                   <p style={{ fontSize: "13px", color: "var(--text-dim)", marginTop: "2px" }}>
                     Performance on untouched 2,121 test radiographs after two-stage transfer learning fine-tuning.
                   </p>
                 </div>
-                <div style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "#38bdf8", background: "rgba(6, 182, 212, 0.1)", padding: "6px 14px", borderRadius: "8px" }}>
+                <div className="metrics-average" style={{ fontFamily: "var(--font-mono)", fontSize: "13px", color: "#38bdf8", background: "rgba(6, 182, 212, 0.1)", padding: "6px 14px", borderRadius: "8px" }}>
                   Mean Test AUC: 0.7383
                 </div>
               </div>
 
-              <div style={{ overflowX: "auto" }}>
+              <div className="metrics-scroll" style={{ overflowX: "auto" }}>
                 <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13px" }}>
                   <thead>
                     <tr style={{ borderBottom: "1px solid var(--border-subtle)", textAlign: "left", color: "var(--text-dim)", fontSize: "11px", textTransform: "uppercase" }}>
@@ -1021,6 +1030,7 @@ export const App: React.FC = () => {
 
       {/* Footer */}
       <footer
+        className="app-footer"
         style={{
           borderTop: "1px solid var(--border-subtle)",
           padding: "20px 28px",
